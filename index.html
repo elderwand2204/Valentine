@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Private Invitation ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --deep-rose: #d63384; --soft-gold: #FBC02D; --cream: #fffaf0; --blue: #bbdefb; }
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%; 
-            font-family: 'Lobster Two', cursive; overflow: hidden; 
+            font-family: 'Dancing Script', cursive; overflow: hidden; 
             background: url('bg.png') no-repeat center center fixed; background-size: cover;
         }
 
@@ -36,51 +36,42 @@
         .main-img { width: 100%; border-radius: 10px; display: block; }
 
         #typing-text { 
-            color: var(--deep-rose); font-size: 1.6rem; max-width: 85%; padding: 25px;
-            background: rgba(255, 255, 255, 0.9); border-radius: 30px; text-align: center; font-style: italic;
+            color: var(--deep-rose); font-size: 2rem; max-width: 85%; padding: 25px;
+            background: rgba(255, 255, 255, 0.9); border-radius: 30px; text-align: center;
         }
 
         .btn-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; height: 200px; position: relative; }
 
         .cloud-btn { 
             width: 180px; height: 90px; border: none; cursor: pointer; 
-            font-family: 'Lobster Two', cursive; font-size: 1.1rem; 
+            font-family: 'Dancing Script', cursive; font-size: 1.4rem; 
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.25s ease;
             position: absolute;
         }
 
         #yesBtn { background: var(--blue); color: #1a237e; z-index: 10; font-weight: bold; }
         #noBtn { background: #424242; color: #ffffff; z-index: 100; transform: scale(2.5); }
 
-        /* Mercy Hint Styling */
-        #hint {
-            position: absolute; bottom: -40px; color: var(--deep-rose);
-            font-size: 1.2rem; opacity: 0; transition: opacity 0.5s;
-            pointer-events: none; width: 100%; text-align: center;
-        }
+        #hint { position: absolute; bottom: -40px; color: var(--deep-rose); font-size: 1.2rem; opacity: 0; transition: opacity 0.5s; width: 100%; text-align: center; }
 
         #success-msg { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; flex-direction: column; align-items: center; justify-content: center; z-index: 4000;
         }
 
-        .pihu-frame {
-            width: 280px; max-width: 75vw; border: 12px solid var(--cream); border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1); margin-bottom: 25px;
-        }
+        .pihu-frame { width: 280px; max-width: 75vw; border: 12px solid var(--cream); border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); margin-bottom: 25px; }
 
-        .heart-sparkle { position: fixed; pointer-events: none; z-index: 2500; }
+        .falling-heart { position: fixed; pointer-events: none; z-index: 2500; font-weight: bold; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        @keyframes fadeOut { to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(2.5); } }
     </style>
 </head>
-<body onclick="createRipple(event)">
+<body>
 
     <div id="first-screen">
         <div class="invite-card">
-            <h2 style="color: var(--deep-rose);">"Are you free on 14th Feb?<br>(No specific reason...)"</h2>
+            <h2 style="color: var(--deep-rose); font-size: 2rem;">"Are you free on 14th Feb?<br>(No specific reason...)"</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px;">
                 <button class="cloud-btn" style="position:relative; background: var(--deep-rose); color:white; width:120px; height:60px;" onclick="goToMain()">Yes</button>
                 <button class="cloud-btn" style="position:relative; background:#eee; color:#777; width:120px; height:60px;" onclick="alert('Please? 🥺 I\'ll cry!')">Wait, No</button>
@@ -92,17 +83,14 @@
         <div class="image-container"><img src="van.jpg" class="main-img"></div>
         <div id="typing-text"></div>
         <div class="btn-wrapper">
-            <button id="yesBtn" class="cloud-btn" style="opacity:0" onclick="celebrate(event)">
-                Yeah, crazy together
-                <div id="hint">Psst... just click here! 👈</div>
-            </button>
+            <button id="yesBtn" class="cloud-btn" style="opacity:0" onclick="celebrate()">Yeah, crazy together<div id="hint">Psst... just click here! 👈</div></button>
             <button id="noBtn" class="cloud-btn" style="opacity:0" onmouseover="moveNo()">No</button>
         </div>
     </div>
 
     <div id="success-msg">
         <img src="pihu.jpg" class="pihu-frame" alt="Pihu">
-        <h1 style="color: var(--deep-rose); font-size: 2.5rem; margin: 0;">My Fineshyt</h1>
+        <h1 style="color: var(--deep-rose); font-size: 3.5rem; margin: 0;">My Fineshyt</h1>
     </div>
 
     <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
@@ -119,7 +107,7 @@
             setTimeout(() => {
                 document.getElementById('first-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
-                music.play().catch(() => {});
+                music.play();
                 typeWriter(0);
             }, 800);
         }
@@ -129,17 +117,9 @@
                 textElement.innerHTML += fullText.charAt(i);
                 setTimeout(() => typeWriter(i + 1), 50);
             } else {
-                const yes = document.getElementById('yesBtn');
-                const no = document.getElementById('noBtn');
-                yes.style.opacity = '1';
-                no.style.opacity = '1';
-                yes.style.left = 'calc(50% - 200px)';
-                no.style.left = 'calc(50% + 20px)';
-                
-                // Start the Mercy Timer
-                setTimeout(() => {
-                    document.getElementById('hint').style.opacity = '1';
-                }, 10000);
+                document.getElementById('yesBtn').style.opacity = '1';
+                document.getElementById('noBtn').style.opacity = '1';
+                setTimeout(() => document.getElementById('hint').style.opacity = '1', 10000);
             }
         }
 
@@ -147,52 +127,39 @@
             const btn = document.getElementById('noBtn');
             if (noScale > 0.3) noScale -= 0.25; 
             if (darkness < 95) darkness += 8; 
-            
             btn.style.transform = `scale(${noScale})`;
             btn.style.backgroundColor = `hsl(0, 0%, ${darkness}%)`;
             btn.style.color = `hsl(0, 0%, ${Math.max(0, darkness - 40)}%)`; 
-            
             const pad = 120;
-            const maxX = window.innerWidth - (btn.offsetWidth * noScale) - pad;
-            const maxY = window.innerHeight - (btn.offsetHeight * noScale) - pad;
-            
-            btn.style.left = Math.max(pad, Math.random() * maxX) + 'px';
-            btn.style.top = Math.max(pad, Math.random() * maxY) + 'px';
-        }
-
-        function celebrate(e) {
-            for(let i=0; i<50; i++) {
-                const h = document.createElement('div');
-                h.className = 'heart-sparkle';
-                h.innerHTML = Math.random() > 0.5 ? '💙' : '💛';
-                h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px';
-                h.style.setProperty('--tx', (Math.random()-0.5)*800+'px');
-                h.style.setProperty('--ty', (Math.random()-0.5)*800+'px');
-                h.style.animation = 'fadeOut 1.5s forwards';
-                document.body.appendChild(h);
-            }
-            setTimeout(() => {
-                document.getElementById('main-content').style.display = 'none';
-                document.getElementById('success-msg').style.display = 'flex';
-                setInterval(createFallingHeart, 80);
-            }, 800);
+            const x = Math.max(pad, Math.random() * (window.innerWidth - btn.offsetWidth - pad));
+            const y = Math.max(pad, Math.random() * (window.innerHeight - btn.offsetHeight - pad));
+            btn.style.left = x + 'px'; btn.style.top = y + 'px';
         }
 
         function createFallingHeart() {
             const heart = document.createElement('div');
-            heart.innerHTML = Math.random() > 0.5 ? '💙' : '💛';
-            heart.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:-50px; font-size:25px; z-index:5000; animation: fall 4s linear forwards;`;
+            heart.className = 'falling-heart';
+            // Mix of solid and hollow hearts
+            const isHollow = Math.random() > 0.5;
+            heart.innerHTML = isHollow ? '♡' : '❤';
+            
+            // Match background colors (blue, yellow, rose)
+            const colors = ['#2196F3', '#FBC02D', '#d63384'];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-50px';
+            heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+            heart.style.animation = `fall ${Math.random() * 2 + 3}s linear forwards`;
             document.body.appendChild(heart);
         }
 
-        function createRipple(e) {
-            const circle = document.createElement('div');
-            circle.style.cssText = `position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(214,51,132,0.2);left:${e.clientX}px;top:${e.clientY}px;animation:ripple 0.6s linear forwards;pointer-events:none;`;
-            document.body.appendChild(circle);
-            setTimeout(() => circle.remove(), 600);
+        function celebrate() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'flex';
+            setInterval(createFallingHeart, 80);
         }
     </script>
 </body>
 </html>
-
 
