@@ -2,109 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Private Invitation ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
     <style>
-        :root { --dark-blue: #19336E; --soft-blue: #bbdefb; --pencil-yellow: #FBC02D; --pink-hue: rgba(255, 192, 203, 0.4); --glow-gold: rgba(251, 192, 45, 0.8); }
+        :root { --dark-blue: #19336E; --soft-blue: #bbdefb; --pencil-yellow: #FBC02D; --pink-hue: rgba(255, 192, 203, 0.4); }
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%; 
-            font-family: 'Alice', serif; overflow: hidden;
+            font-family: 'Alice', serif; overflow: hidden; touch-action: manipulation;
             background: url('bg.png') no-repeat center center fixed; background-size: cover;
         }
 
         .screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; inset: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: all 0.8s ease-in-out; z-index: 3000;
+            transition: opacity 0.8s ease; z-index: 3000;
             background: var(--pink-hue);
         }
 
-        .hidden { opacity: 0; pointer-events: none; transform: translateY(-30px); }
+        .hidden { opacity: 0; pointer-events: none; }
 
         .floating-text {
             color: var(--dark-blue); font-size: 2.2rem; text-align: center;
-            margin-top: 40px; margin-bottom: 25px; max-width: 90%;
-            text-shadow: 1px 1px 2px white;
+            margin-bottom: 20px; max-width: 90%; text-shadow: 1px 1px 2px white;
         }
 
         .image-container { 
-            width: 300px; max-width: 80vw; padding: 12px; background: white; border-radius: 15px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.15); transform: rotate(-1.5deg);
-            margin-bottom: 20px;
+            width: 280px; max-width: 75vw; padding: 10px; background: white; border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform: rotate(-1.5deg); margin-bottom: 20px;
         }
         .main-img { width: 100%; border-radius: 8px; display: block; }
 
-        #typing-text { color: var(--dark-blue); font-size: 1.8rem; max-width: 85%; text-align: center; margin-bottom: 30px; min-height: 3.5em; }
+        #typing-text { color: var(--dark-blue); font-size: 1.7rem; max-width: 85%; text-align: center; min-height: 4em; }
 
-        /* Fixed Cloud Styling */
+        /* Cloud Buttons */
         .cloud-btn { 
-            width: 180px; height: 80px; border: none; cursor: pointer; 
-            font-family: 'Alice', serif; font-size: 1.1rem; color: var(--dark-blue);
+            width: 160px; height: 75px; border: none; cursor: pointer; 
+            font-family: 'Alice', serif; font-size: 1rem; color: var(--dark-blue);
             border-radius: 100px; position: absolute;
             display: flex; align-items: center; justify-content: center; text-align: center;
             box-shadow: 5px 8px 15px rgba(0,0,0,0.1);
-            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .cloud-btn::after, .cloud-btn::before { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
         .cloud-btn::after { width: 60px; height: 60px; top: -30px; left: 20px; }
         .cloud-btn::before { width: 80px; height: 80px; top: -40px; right: 20px; }
 
-        #yesBtn { background: linear-gradient(135deg, var(--pencil-yellow), var(--soft-blue)); z-index: 10; left: 50%; transform: translateX(-110%); }
-        #yesBtn.glowing { box-shadow: 0 0 30px var(--glow-gold), 0 0 60px var(--soft-blue); text-shadow: 0 0 5px white; }
+        /* Initial Button Positions */
+        #yesBtn { background: linear-gradient(135deg, var(--pencil-yellow), var(--soft-blue)); bottom: 15%; left: 15%; }
+        #noBtn { background: #d1d1d1; bottom: 15%; right: 15%; }
 
-        /* No Button - Permanently Small */
-        #noBtn { background: #d1d1d1; z-index: 100; left: 50%; transform: translateX(10%); }
+        #yesBtn.glowing { box-shadow: 0 0 30px var(--pencil-yellow), 0 0 50px var(--soft-blue); transform: translate(-50%, -50%) scale(1.4) !important; left: 50% !important; top: 50% !important; }
 
-        .stroke {
-            position: absolute; background: var(--pencil-yellow);
-            height: 6px; width: 0; opacity: 0.95;
-            border-radius: 10px; transition: width 0.15s ease-out;
-        }
-        .s1 { top: 35%; left: 10%; transform: rotate(12deg); }
-        .s2 { top: 52%; left: 5%; transform: rotate(-8deg); }
-        .s3 { top: 68%; left: 12%; transform: rotate(4deg); }
+        .stroke { position: absolute; background: var(--pencil-yellow); height: 6px; width: 0; opacity: 0.9; border-radius: 10px; transition: width 0.15s ease; }
+        .s1 { top: 30%; left: 10%; transform: rotate(10deg); }
+        .s2 { top: 50%; left: 15%; transform: rotate(-10deg); }
+        .s3 { top: 70%; left: 10%; transform: rotate(5deg); }
 
-        #success-msg { background: white; z-index: 4000; overflow-y: auto; text-align: center; }
-        .collage-container {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-            width: 80%; max-width: 350px; margin: 0 auto; padding-top: 20px;
-        }
-        .collage-img { width: 100%; border: 5px solid white; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .center-img { grid-column: span 2; justify-self: center; width: 55%; border-width: 6px; }
+        /* Success Page */
+        #success-msg { background: white; z-index: 4000; text-align: center; display: none; }
+        .collage-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 85%; max-width: 350px; margin: 0 auto 20px; }
+        .collage-img { width: 100%; border: 5px solid white; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .center-img { grid-column: span 2; justify-self: center; width: 60%; }
 
         .falling-heart { position: fixed; pointer-events: none; z-index: 5000; font-size: 24px; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(350deg); opacity: 0; } }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <div id="first-screen" class="screen">
         <h2 class="floating-text">"Are you free on 14th Feb?<br>(No specific reason...)"</h2>
-        <div style="display: flex; gap: 40px; position: relative; height: 140px; width: 100%; justify-content: center;">
-            <button class="cloud-btn" style="position:relative; transform:none; left:auto;" onclick="goToMain()">Yes</button>
-            <button class="cloud-btn" style="position:relative; transform:none; left:auto; background:#eee;" onclick="alert('Please? 🥺')">Wait, No</button>
+        <div style="position: relative; width: 100%; height: 100px;">
+            <button class="cloud-btn" style="left: 15%;" onclick="goToMain()">Yes</button>
+            <button class="cloud-btn" style="right: 15%; background:#eee;" onclick="alert('Please? 🥺')">Wait, No</button>
         </div>
     </div>
 
     <div id="main-content" class="screen hidden">
         <div class="image-container"><img src="van.jpg" class="main-img"></div>
         <div id="typing-text"></div>
-        <div class="btn-wrapper" style="width: 100%; height: 350px; position: relative;">
-            <button id="yesBtn" class="cloud-btn" style="opacity:0;" onclick="startTransition()">
-                Yeah, crazy together
-            </button>
-            <button id="noBtn" class="cloud-btn" style="opacity:0;" onmouseover="moveNo()" ontouchstart="moveNo()">
-                No
-                <div class="stroke s1"></div>
-                <div class="stroke s2"></div>
-                <div class="stroke s3"></div>
-            </button>
-        </div>
+        <button id="yesBtn" class="cloud-btn" style="opacity:0;" onclick="startTransition()">Yeah, crazy together</button>
+        <button id="noBtn" class="cloud-btn" style="opacity:0;" onmouseover="moveNo()" ontouchstart="moveNo()">
+            No
+            <div class="stroke s1"></div>
+            <div class="stroke s2"></div>
+            <div class="stroke s3"></div>
+        </button>
     </div>
 
-    <div id="success-msg" class="screen hidden">
+    <div id="success-msg" class="screen">
         <div class="collage-container">
             <img src="pihu1.jpg" class="collage-img" style="transform: rotate(-3deg);">
             <img src="pihu2.jpg" class="collage-img" style="transform: rotate(4deg);">
@@ -112,7 +100,7 @@
             <img src="pihu3.jpg" class="collage-img" style="transform: rotate(-5deg);">
             <img src="pihu4.jpg" class="collage-img" style="transform: rotate(2deg);">
         </div>
-        <h1 style="color: var(--dark-blue); font-size: 2.8rem; margin: 30px 0;">My Valentine</h1>
+        <h1 style="color: var(--dark-blue); font-size: 2.5rem; margin: 0;">My Valentine</h1>
     </div>
 
     <audio id="bgMusic" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
@@ -123,7 +111,7 @@
         const fullText = "\"Hey, well, if we are both going crazy then we will go crazy together right?\"";
 
         function goToMain() {
-            music.play().catch(() => { document.body.addEventListener('click', () => { music.play(); }, { once: true }); });
+            music.play().catch(() => {});
             document.getElementById('first-screen').classList.add('hidden');
             document.getElementById('main-content').classList.remove('hidden');
             setTimeout(() => { typeWriter(0); }, 1000);
@@ -141,24 +129,18 @@
 
         function moveNo() {
             const btn = document.getElementById('noBtn');
+            const padding = 60;
+            // Get viewport size
             const vW = window.innerWidth;
             const vH = window.innerHeight;
-            
-            // Cloud Dimensions
-            const btnW = 180;
-            const btnH = 80;
+            // Generate random X/Y within safe bounds
+            const newX = Math.random() * (vW - 200) + padding;
+            const newY = Math.random() * (vH - 150) + padding;
 
-            // Safe Margins to keep it inside the screen
-            const maxX = vW - btnW - 40;
-            const maxY = vH - btnH - 40;
-
-            const randomX = Math.random() * maxX + 20;
-            const randomY = Math.random() * maxY + 20;
-
-            // Remove the initial centering transform once it starts moving
-            btn.style.transform = 'none';
-            btn.style.left = `${randomX}px`;
-            btn.style.top = `${randomY}px`;
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
+            btn.style.bottom = 'auto'; // Break the initial CSS bottom lock
+            btn.style.right = 'auto';  // Break the initial CSS right lock
         }
 
         function startTransition() {
@@ -173,30 +155,24 @@
             setTimeout(() => {
                 noBtn.style.opacity = '0';
                 yesBtn.classList.add('glowing');
-                yesBtn.style.transition = 'all 1.2s ease-in-out';
-                yesBtn.style.left = '50%';
-                yesBtn.style.top = '50%';
-                yesBtn.style.transform = 'translate(-50%, -50%) scale(1.3)';
                 document.querySelector('.image-container').style.opacity = '0';
                 textElement.style.opacity = '0';
                 
                 setTimeout(() => {
                     document.getElementById('main-content').classList.add('hidden');
-                    document.getElementById('success-msg').classList.remove('hidden');
-                    setInterval(createThemedHeart, 200);
+                    document.getElementById('success-msg').style.display = 'flex';
+                    setInterval(() => {
+                        const h = document.createElement('div');
+                        h.className = 'falling-heart';
+                        h.innerHTML = Math.random() > 0.5 ? 'ღ' : 'დ';
+                        h.style.color = Math.random() > 0.5 ? '#FBC02D' : '#2196F3';
+                        h.style.left = Math.random() * 100 + 'vw';
+                        h.style.top = '-50px';
+                        h.style.animation = `fall ${Math.random() * 2 + 3}s linear forwards`;
+                        document.body.appendChild(h);
+                    }, 200);
                 }, 1400);
             }, 900);
-        }
-
-        function createThemedHeart() {
-            const h = document.createElement('div');
-            h.className = 'falling-heart';
-            h.innerHTML = Math.random() > 0.5 ? 'ღ' : 'დ';
-            h.style.color = Math.random() > 0.5 ? '#FBC02D' : '#2196F3';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.top = '-50px';
-            h.style.animation = `fall ${Math.random() * 2 + 3}s linear forwards`;
-            document.body.appendChild(h);
         }
     </script>
 </body>
