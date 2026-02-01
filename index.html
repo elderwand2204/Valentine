@@ -3,128 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Crazy Question ❤️</title>
+    <title>A Private Invitation ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --deep-rose: #d63384; 
-            --soft-gold: #FBC02D; 
-            --cream: #fffaf0;
-            --blue: #2196F3;
-        }
+        :root { --deep-rose: #d63384; --soft-gold: #FBC02D; --cream: #fffaf0; --blue: #bbdefb; }
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%; 
-            font-family: 'Lobster Two', cursive; 
-            overflow: hidden; 
-            background: url('bg.png') no-repeat center center fixed; 
-            background-size: cover;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="font-size: 20px;"><text y="15">✨</text></svg>'), auto; 
+            font-family: 'Lobster Two', cursive; overflow: hidden; 
+            background: url('bg.png') no-repeat center center fixed; background-size: cover;
         }
 
-        /* Glassmorphism Overlay */
-        #overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(255, 250, 240, 0.85); 
-            backdrop-filter: blur(10px);
-            display: flex; justify-content: center; align-items: center; z-index: 2000; 
-            transition: all 1s ease;
+        #first-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 250, 240, 0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center; z-index: 3000;
+            transition: opacity 0.8s ease;
         }
 
-        .start-card {
+        .invite-card {
             padding: 40px; background: white; border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(214, 51, 132, 0.2);
-            text-align: center; border: 2px solid var(--deep-rose);
+            box-shadow: 0 20px 40px rgba(214, 51, 132, 0.2); text-align: center;
+            border: 2px solid var(--deep-rose); max-width: 85%;
         }
 
-        .start-btn { 
-            padding: 15px 40px; font-size: 1.5rem; background: var(--deep-rose); 
-            color: white; border: none; border-radius: 30px; cursor: pointer; 
-            font-weight: bold; font-family: 'Lobster Two', cursive;
-            transition: transform 0.3s;
-        }
-        .start-btn:hover { transform: scale(1.05); }
+        #main-content { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 20px; }
 
-        #main-content { 
-            display: none; flex-direction: column; align-items: center; 
-            justify-content: center; height: 100vh; gap: 20px;
-        }
-
-        /* Magazine-style image frame */
         .image-container { 
-            width: 340px; padding: 15px; background: white;
-            border-radius: 20px; box-shadow: 0 15px 45px rgba(0,0,0,0.15);
-            transform: rotate(-2deg); transition: transform 0.5s;
+            width: 280px; max-width: 80vw; padding: 12px; background: white; border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.15); transform: rotate(-2deg);
         }
-        .image-container:hover { transform: rotate(0deg) scale(1.02); }
         .main-img { width: 100%; border-radius: 10px; display: block; }
 
         #typing-text { 
-            color: var(--deep-rose); font-size: 1.8rem; max-width: 80%; 
-            padding: 30px; background: rgba(255, 255, 255, 0.9);
-            border-radius: 30px; text-align: center; font-style: italic;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid rgba(214, 51, 132, 0.1);
+            color: var(--deep-rose); font-size: 1.6rem; max-width: 85%; padding: 25px;
+            background: rgba(255, 255, 255, 0.9); border-radius: 30px; text-align: center; font-style: italic;
         }
 
-        .btn-wrapper { 
-            display: flex; justify-content: center; align-items: center; 
-            gap: 40px; width: 100%; height: 150px; position: relative; 
+        .btn-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; height: 200px; position: relative; }
+
+        /* Cloud Styling */
+        .cloud-btn { 
+            width: 180px; height: 90px; border: none; cursor: pointer; 
+            font-family: 'Lobster Two', cursive; font-size: 1.1rem; 
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.3s ease;
+            position: absolute;
         }
 
-        .aesthetic-btn { 
-            width: 200px; height: 60px; border: none; cursor: pointer; 
-            font-family: 'Lobster Two', cursive; font-size: 1.3rem; 
-            border-radius: 15px; z-index: 10; opacity: 0; 
-            transition: all 0.4s ease;
-        }
-
-        #yesBtn { 
-            background: var(--deep-rose); color: white;
-            box-shadow: 0 10px 20px rgba(214, 51, 132, 0.3);
-        }
-
+        #yesBtn { background: var(--blue); color: #1a237e; z-index: 10; font-weight: bold; }
+        
         #noBtn { 
-            background: #eee; color: #888; position: absolute; 
-            z-index: 100; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: #fff9c4; color: #616161; z-index: 100;
+            transform: scale(2.5); /* Starts much bigger */
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #success-msg { 
-            display: none; position: fixed; top: 50%; left: 50%; 
-            transform: translate(-50%, -50%); z-index: 3000; 
-            background: white; padding: 60px; border-radius: 50px; 
-            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-            border: 3px solid var(--deep-rose);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; flex-direction: column; align-items: center; justify-content: center; z-index: 4000;
+        }
+
+        .pihu-frame {
+            width: 280px; max-width: 75vw; border: 12px solid var(--cream); border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); margin-bottom: 25px;
         }
 
         .heart-sparkle { position: fixed; pointer-events: none; z-index: 2500; }
-        @keyframes fadeOut { to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(2.5); } }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes fadeOut { to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(2.5); } }
     </style>
 </head>
-<body>
+<body onclick="createRipple(event)">
 
-    <div id="overlay">
-        <div class="start-card">
-            <h2 style="color: var(--deep-rose); margin-top: 0;">A Private Invitation</h2>
-            <button class="start-btn" onclick="startExperience()">Open Your Message ❤️</button>
+    <div id="first-screen">
+        <div class="invite-card">
+            <h2 style="color: var(--deep-rose);">"Are you free on 14th Feb?<br>(No specific reason...)"</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px;">
+                <button class="cloud-btn" style="position:relative; background: var(--deep-rose); color:white; width:120px; height:60px;" onclick="goToMain()">Yes</button>
+                <button class="cloud-btn" style="position:relative; background:#eee; color:#777; width:120px; height:60px;" onclick="alert('Please? 🥺 I\'ll cry!')">Wait, No</button>
+            </div>
         </div>
     </div>
 
     <div id="main-content">
-        <div class="image-container">
-            <img src="van.jpg" class="main-img">
-        </div>
+        <div class="image-container"><img src="van.jpg" class="main-img"></div>
         <div id="typing-text"></div>
         <div class="btn-wrapper">
-            <button id="yesBtn" class="aesthetic-btn" onclick="celebrate(event)">Yeah, crazy together</button>
-            <button id="noBtn" class="aesthetic-btn" onmouseover="moveNo()">No</button>
+            <button id="yesBtn" class="cloud-btn" style="opacity:0" onclick="celebrate(event)">Yeah, crazy together</button>
+            <button id="noBtn" class="cloud-btn" style="opacity:0" onmouseover="moveNo()">No</button>
         </div>
     </div>
 
     <div id="success-msg">
-        <h1 style="font-size: 4.5rem; color: var(--deep-rose); margin: 0;">YAY! 🤪❤️</h1>
-        <p style="font-size: 2rem; color: #555;">Hopelessly devoted to our craziness!</p>
+        <img src="pihu.jpg" class="pihu-frame" alt="Pihu">
+        <h1 style="color: var(--deep-rose); font-size: 2.5rem; margin: 0;">My Fineshyt</h1>
     </div>
 
     <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
@@ -133,69 +107,86 @@
         const music = document.getElementById('bgMusic');
         const textElement = document.getElementById('typing-text');
         const fullText = "\"Hey, well, if we are both going crazy then we will go crazy together right?\"";
-        let noScale = 1;
+        let noScale = 2.5; // Starts HUGE
 
-        function startExperience() {
-            document.getElementById('overlay').style.opacity = '0';
+        function goToMain() {
+            document.getElementById('first-screen').style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('first-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
-                music.play();
+                music.play().catch(() => {});
                 typeWriter(0);
-            }, 1000);
+            }, 800);
         }
 
         function typeWriter(i) {
             if (i < fullText.length) {
                 textElement.innerHTML += fullText.charAt(i);
-                setTimeout(() => typeWriter(i + 1), 60);
+                setTimeout(() => typeWriter(i + 1), 50);
             } else {
-                document.getElementById('yesBtn').style.opacity = '1';
-                document.getElementById('noBtn').style.opacity = '1';
+                const yes = document.getElementById('yesBtn');
+                const no = document.getElementById('noBtn');
+                yes.style.opacity = '1';
+                no.style.opacity = '1';
+                // Reset positions
+                yes.style.left = 'calc(50% - 200px)';
+                no.style.left = 'calc(50% + 20px)';
             }
         }
 
         function moveNo() {
             const btn = document.getElementById('noBtn');
-            noScale += 0.15;
+            // Shrink logic
+            if (noScale > 0.4) noScale -= 0.2; 
             btn.style.transform = `scale(${noScale})`;
-            const pad = 120; 
+            
+            // Safe Boundary Math
+            const pad = 100;
             const maxX = window.innerWidth - (btn.offsetWidth * noScale) - pad;
             const maxY = window.innerHeight - (btn.offsetHeight * noScale) - pad;
-            btn.style.left = Math.max(pad, Math.random() * maxX) + 'px';
-            btn.style.top = Math.max(pad, Math.random() * maxY) + 'px';
+            
+            const randomX = Math.max(pad, Math.random() * maxX);
+            const randomY = Math.max(pad, Math.random() * maxY);
+            
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
         }
 
         function celebrate(e) {
-            // High-end Explosion
             for(let i=0; i<50; i++) {
                 const h = document.createElement('div');
                 h.className = 'heart-sparkle';
                 h.innerHTML = Math.random() > 0.5 ? '💙' : '💛';
-                h.style.left = e.clientX + 'px';
-                h.style.top = e.clientY + 'px';
-                h.style.fontSize = Math.random() * 20 + 20 + 'px';
-                h.style.setProperty('--tx', (Math.random() - 0.5) * 800 + 'px');
-                h.style.setProperty('--ty', (Math.random() - 0.5) * 800 + 'px');
-                h.style.animation = 'fadeOut 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards';
+                h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px';
+                h.style.setProperty('--tx', (Math.random()-0.5)*800+'px');
+                h.style.setProperty('--ty', (Math.random()-0.5)*800+'px');
+                h.style.animation = 'fadeOut 1.5s forwards';
                 document.body.appendChild(h);
             }
-
             setTimeout(() => {
-                document.getElementById('main-content').style.opacity = '0.3';
-                document.getElementById('success-msg').style.display = 'block';
-                setInterval(createFallingHeart, 100);
-            }, 600);
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('success-msg').style.display = 'flex';
+                setInterval(createFallingHeart, 80);
+            }, 800);
         }
 
         function createFallingHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = Math.random() > 0.5 ? '💙' : '💛';
-            heart.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:-50px; font-size:${Math.random()*30+20}px; animation: fall ${Math.random()*2+3}s linear forwards;`;
+            heart.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:-50px; font-size:25px; z-index:5000; animation: fall 4s linear forwards;`;
             document.body.appendChild(heart);
         }
+
+        function createRipple(e) {
+            const circle = document.createElement('div');
+            circle.style.cssText = `position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(214,51,132,0.2);left:${e.clientX}px;top:${e.clientY}px;animation:ripple 0.6s linear forwards;pointer-events:none;`;
+            document.body.appendChild(circle);
+            setTimeout(() => circle.remove(), 600);
+        }
     </script>
+    <style> @keyframes ripple { to { transform: scale(10); opacity: 0; } } </style>
 </body>
 </html>
+
 
 
