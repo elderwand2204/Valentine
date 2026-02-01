@@ -10,7 +10,7 @@
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%; 
-            font-family: 'Alice', serif; overflow-x: hidden;
+            font-family: 'Alice', serif; overflow: hidden;
             background: url('bg.png') no-repeat center center fixed; background-size: cover;
         }
 
@@ -30,7 +30,7 @@
         }
 
         .image-container { 
-            width: 320px; max-width: 85vw; padding: 12px; background: white; border-radius: 15px;
+            width: 300px; max-width: 80vw; padding: 12px; background: white; border-radius: 15px;
             box-shadow: 0 12px 35px rgba(0,0,0,0.15); transform: rotate(-1.5deg);
             margin-bottom: 20px;
         }
@@ -38,34 +38,29 @@
 
         #typing-text { color: var(--dark-blue); font-size: 1.8rem; max-width: 85%; text-align: center; margin-bottom: 30px; min-height: 3.5em; }
 
+        /* Fixed Cloud Styling */
         .cloud-btn { 
-            width: 220px; height: 100px; border: none; cursor: pointer; 
-            font-family: 'Alice', serif; font-size: 1.2rem; color: var(--dark-blue);
+            width: 180px; height: 80px; border: none; cursor: pointer; 
+            font-family: 'Alice', serif; font-size: 1.1rem; color: var(--dark-blue);
             border-radius: 100px; position: absolute;
             display: flex; align-items: center; justify-content: center; text-align: center;
-            box-shadow: 5px 8px 15px rgba(0,0,0,0.1); padding: 0 10px;
-            transition: all 0.4s ease;
+            box-shadow: 5px 8px 15px rgba(0,0,0,0.1);
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s;
         }
         .cloud-btn::after, .cloud-btn::before { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
-        .cloud-btn::after { width: 85px; height: 85px; top: -40px; left: 30px; }
-        .cloud-btn::before { width: 105px; height: 105px; top: -50px; right: 30px; }
+        .cloud-btn::after { width: 60px; height: 60px; top: -30px; left: 20px; }
+        .cloud-btn::before { width: 80px; height: 80px; top: -40px; right: 20px; }
 
         #yesBtn { background: linear-gradient(135deg, var(--pencil-yellow), var(--soft-blue)); z-index: 10; left: 50%; transform: translateX(-110%); }
-        
-        /* The Glow Effect for the transition */
-        #yesBtn.glowing {
-            box-shadow: 0 0 30px var(--glow-gold), 0 0 60px var(--soft-blue);
-            color: var(--dark-blue);
-            text-shadow: 0 0 5px white;
-        }
+        #yesBtn.glowing { box-shadow: 0 0 30px var(--glow-gold), 0 0 60px var(--soft-blue); text-shadow: 0 0 5px white; }
 
-        #noBtn { background: #d1d1d1; z-index: 100; left: 50%; transform: translateX(10%) scale(1.6); }
+        /* No Button - Permanently Small */
+        #noBtn { background: #d1d1d1; z-index: 100; left: 50%; transform: translateX(10%); }
 
         .stroke {
             position: absolute; background: var(--pencil-yellow);
-            height: 8px; width: 0; opacity: 0.95;
-            border-radius: 20% 80% 30% 70% / 60% 40% 60% 40%;
-            transition: width 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            height: 6px; width: 0; opacity: 0.95;
+            border-radius: 10px; transition: width 0.15s ease-out;
         }
         .s1 { top: 35%; left: 10%; transform: rotate(12deg); }
         .s2 { top: 52%; left: 5%; transform: rotate(-8deg); }
@@ -74,10 +69,10 @@
         #success-msg { background: white; z-index: 4000; overflow-y: auto; text-align: center; }
         .collage-container {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-            width: 85%; max-width: 380px; margin: 0 auto;
+            width: 80%; max-width: 350px; margin: 0 auto; padding-top: 20px;
         }
         .collage-img { width: 100%; border: 5px solid white; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .center-img { grid-column: span 2; justify-self: center; width: 60%; border-width: 6px; }
+        .center-img { grid-column: span 2; justify-self: center; width: 55%; border-width: 6px; }
 
         .falling-heart { position: fixed; pointer-events: none; z-index: 5000; font-size: 24px; }
         @keyframes fall { to { transform: translateY(110vh) rotate(350deg); opacity: 0; } }
@@ -100,7 +95,7 @@
             <button id="yesBtn" class="cloud-btn" style="opacity:0;" onclick="startTransition()">
                 Yeah, crazy together
             </button>
-            <button id="noBtn" class="cloud-btn" style="opacity:0;" onmouseover="moveNo()">
+            <button id="noBtn" class="cloud-btn" style="opacity:0;" onmouseover="moveNo()" ontouchstart="moveNo()">
                 No
                 <div class="stroke s1"></div>
                 <div class="stroke s2"></div>
@@ -117,8 +112,7 @@
             <img src="pihu3.jpg" class="collage-img" style="transform: rotate(-5deg);">
             <img src="pihu4.jpg" class="collage-img" style="transform: rotate(2deg);">
         </div>
-        <h1 style="color: var(--dark-blue); font-size: 2.8rem; margin: 20px 0 5px 0;">My Valentine</h1>
-        <p style="color: var(--dark-blue); font-size: 1.4rem; margin: 0; opacity: 0.8;">My Fineshyt</p>
+        <h1 style="color: var(--dark-blue); font-size: 2.8rem; margin: 30px 0;">My Valentine</h1>
     </div>
 
     <audio id="bgMusic" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
@@ -127,7 +121,6 @@
         const music = document.getElementById('bgMusic');
         const textElement = document.getElementById('typing-text');
         const fullText = "\"Hey, well, if we are both going crazy then we will go crazy together right?\"";
-        let noScale = 1.6;
 
         function goToMain() {
             music.play().catch(() => { document.body.addEventListener('click', () => { music.play(); }, { once: true }); });
@@ -148,19 +141,24 @@
 
         function moveNo() {
             const btn = document.getElementById('noBtn');
-            if (noScale > 0.45) noScale -= 0.15;
-            
             const vW = window.innerWidth;
             const vH = window.innerHeight;
-            const btnW = btn.offsetWidth * noScale;
-            const btnH = btn.offsetHeight * noScale;
+            
+            // Cloud Dimensions
+            const btnW = 180;
+            const btnH = 80;
 
-            const randomX = Math.random() * (vW - btnW - 120) + 60;
-            const randomY = Math.random() * (vH - btnH - 120) + 60;
+            // Safe Margins to keep it inside the screen
+            const maxX = vW - btnW - 40;
+            const maxY = vH - btnH - 40;
 
-            btn.style.left = randomX + 'px';
-            btn.style.top = randomY + 'px';
-            btn.style.transform = `scale(${noScale})`;
+            const randomX = Math.random() * maxX + 20;
+            const randomY = Math.random() * maxY + 20;
+
+            // Remove the initial centering transform once it starts moving
+            btn.style.transform = 'none';
+            btn.style.left = `${randomX}px`;
+            btn.style.top = `${randomY}px`;
         }
 
         function startTransition() {
@@ -168,17 +166,17 @@
             const yesBtn = document.getElementById('yesBtn');
             const strokes = document.querySelectorAll('.stroke');
             
-            strokes[0].style.width = '85%';
-            setTimeout(() => { strokes[1].style.width = '90%'; }, 150);
-            setTimeout(() => { strokes[2].style.width = '82%'; }, 300);
+            strokes[0].style.width = '80%';
+            setTimeout(() => { strokes[1].style.width = '80%'; }, 150);
+            setTimeout(() => { strokes[2].style.width = '80%'; }, 300);
 
             setTimeout(() => {
                 noBtn.style.opacity = '0';
                 yesBtn.classList.add('glowing');
-                yesBtn.style.transition = 'all 1.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                yesBtn.style.transition = 'all 1.2s ease-in-out';
                 yesBtn.style.left = '50%';
                 yesBtn.style.top = '50%';
-                yesBtn.style.transform = 'translate(-50%, -50%) scale(1.4)';
+                yesBtn.style.transform = 'translate(-50%, -50%) scale(1.3)';
                 document.querySelector('.image-container').style.opacity = '0';
                 textElement.style.opacity = '0';
                 
@@ -197,10 +195,8 @@
             h.style.color = Math.random() > 0.5 ? '#FBC02D' : '#2196F3';
             h.style.left = Math.random() * 100 + 'vw';
             h.style.top = '-50px';
-            h.style.fontSize = Math.random() * 20 + 20 + 'px';
             h.style.animation = `fall ${Math.random() * 2 + 3}s linear forwards`;
             document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
         }
     </script>
 </body>
