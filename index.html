@@ -25,7 +25,7 @@
 
         .floating-text {
             color: var(--dark-blue); font-size: 2.2rem; text-align: center;
-            margin-top: 50px; margin-bottom: 25px; max-width: 90%;
+            margin-top: 40px; margin-bottom: 25px; max-width: 90%;
             text-shadow: 1px 1px 2px white;
         }
 
@@ -38,35 +38,31 @@
 
         #typing-text { color: var(--dark-blue); font-size: 1.8rem; max-width: 85%; text-align: center; margin-bottom: 30px; min-height: 3.5em; }
 
-        /* FIXED CLOUD SHAPES - Larger and Flexible */
         .cloud-btn { 
-            width: 220px; height: 110px; border: none; cursor: pointer; 
+            width: 240px; height: 110px; border: none; cursor: pointer; 
             font-family: 'Alice', serif; font-size: 1.2rem; color: var(--dark-blue);
-            border-radius: 50% / 50%; position: absolute;
+            border-radius: 100px; position: absolute;
             display: flex; align-items: center; justify-content: center; text-align: center;
-            box-shadow: 5px 8px 15px rgba(0,0,0,0.1); padding: 10px;
+            box-shadow: 5px 8px 15px rgba(0,0,0,0.1); padding: 0 15px;
         }
         .cloud-btn::after, .cloud-btn::before { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
-        .cloud-btn::after { width: 100px; height: 100px; top: -45px; left: 30px; }
-        .cloud-btn::before { width: 120px; height: 120px; top: -55px; right: 30px; }
+        .cloud-btn::after { width: 95px; height: 95px; top: -45px; left: 35px; }
+        .cloud-btn::before { width: 115px; height: 115px; top: -55px; right: 35px; }
 
-        #yesBtn { 
-            background: linear-gradient(135deg, var(--pencil-yellow), var(--soft-blue)); 
-            z-index: 10; left: 50%; transform: translateX(-110%);
-        }
-        
-        #noBtn { 
-            background: #d1d1d1; z-index: 100; 
-            left: 50%; transform: translateX(10%) scale(2.0); 
-        }
+        #yesBtn { background: linear-gradient(135deg, var(--pencil-yellow), var(--soft-blue)); z-index: 10; left: 50%; transform: translateX(-110%); }
+        #noBtn { background: #d1d1d1; z-index: 100; left: 50%; transform: translateX(10%) scale(2.0); }
 
-        .scratch-overlay {
-            position: absolute; inset: -20px;
-            background: repeating-linear-gradient(135deg, transparent, transparent 3px, var(--pencil-yellow) 4px, var(--pencil-yellow) 6px);
-            opacity: 0; pointer-events: none; border-radius: 50%;
+        /* Jagged Scratch Strokes */
+        .stroke {
+            position: absolute; background: var(--pencil-yellow);
+            height: 8px; width: 0; opacity: 0.95;
+            border-radius: 20% 80% 30% 70% / 60% 40% 60% 40%; /* Jagged look */
+            transition: width 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-        .scratched .scratch-overlay { opacity: 0.9; animation: wiggleScratch 0.1s infinite; }
-        @keyframes wiggleScratch { 0% { transform: translate(2px, 2px); } 100% { transform: translate(-2px, -2px); } }
+        .s1 { top: 35%; left: 10%; transform: rotate(12deg) skewX(-10deg); }
+        .s2 { top: 52%; left: 5%; transform: rotate(-8deg) skewX(15deg); }
+        .s3 { top: 68%; left: 12%; transform: rotate(4deg) skewX(-5deg); }
 
         #success-msg { background: white; z-index: 4000; overflow-y: auto; padding: 40px 0; }
         .collage-container {
@@ -99,7 +95,9 @@
             </button>
             <button id="noBtn" class="cloud-btn" style="opacity:0;" onmouseover="moveNo()">
                 No
-                <div class="scratch-overlay"></div>
+                <div class="stroke s1"></div>
+                <div class="stroke s2"></div>
+                <div class="stroke s3"></div>
             </button>
         </div>
     </div>
@@ -147,7 +145,6 @@
             const pad = 120;
             const maxX = window.innerWidth - (btn.offsetWidth * noScale) - pad;
             const maxY = window.innerHeight - (btn.offsetHeight * noScale) - pad;
-            
             btn.style.left = Math.max(pad, Math.random() * maxX) + 'px';
             btn.style.top = Math.max(pad, Math.random() * maxY) + 'px';
             btn.style.transform = `scale(${noScale})`;
@@ -156,7 +153,13 @@
         function startTransition() {
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
-            noBtn.classList.add('scratched');
+            const strokes = document.querySelectorAll('.stroke');
+            
+            // Sequential Sketch Animation
+            strokes[0].style.width = '85%';
+            setTimeout(() => { strokes[1].style.width = '90%'; }, 150);
+            setTimeout(() => { strokes[2].style.width = '82%'; }, 300);
+
             setTimeout(() => {
                 noBtn.style.opacity = '0';
                 yesBtn.style.transition = 'all 1.2s ease-in-out';
@@ -178,10 +181,8 @@
                         document.body.appendChild(h);
                     }, 150);
                 }, 1200);
-            }, 1000);
+            }, 900);
         }
     </script>
 </body>
 </html>
-
-
