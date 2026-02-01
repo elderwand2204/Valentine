@@ -7,62 +7,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --deep-rose: #d63384; --soft-gold: #FBC02D; --cream: #fffaf0; --blue: #bbdefb; }
-        
-        body, html { 
-            margin: 0; padding: 0; height: 100%; width: 100%; 
-            font-family: 'Dancing Script', cursive; overflow: hidden; 
-            background: url('bg.png') no-repeat center center fixed; background-size: cover;
-        }
-
-        #first-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 250, 240, 0.95); backdrop-filter: blur(10px);
-            display: flex; justify-content: center; align-items: center; z-index: 3000;
-            transition: opacity 0.8s ease;
-        }
-
-        .invite-card {
-            padding: 40px; background: white; border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(214, 51, 132, 0.2); text-align: center;
-            border: 2px solid var(--deep-rose); max-width: 85%;
-        }
-
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Dancing Script', cursive; overflow: hidden; background: url('bg.png') no-repeat center center fixed; background-size: cover; }
+        #first-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 250, 240, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 3000; transition: opacity 0.8s ease; }
+        .invite-card { padding: 40px; background: white; border-radius: 40px; box-shadow: 0 20px 40px rgba(214, 51, 132, 0.2); text-align: center; border: 2px solid var(--deep-rose); max-width: 85%; }
         #main-content { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 20px; }
-
-        .image-container { 
-            width: 280px; max-width: 80vw; padding: 12px; background: white; border-radius: 20px;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.15); transform: rotate(-2deg);
-        }
+        .image-container { width: 280px; max-width: 80vw; padding: 12px; background: white; border-radius: 20px; box-shadow: 0 15px 45px rgba(0,0,0,0.15); transform: rotate(-2deg); }
         .main-img { width: 100%; border-radius: 10px; display: block; }
-
-        #typing-text { 
-            color: var(--deep-rose); font-size: 2rem; max-width: 85%; padding: 25px;
-            background: rgba(255, 255, 255, 0.9); border-radius: 30px; text-align: center;
-        }
-
+        #typing-text { color: var(--deep-rose); font-size: 2rem; max-width: 85%; padding: 25px; background: rgba(255, 255, 255, 0.9); border-radius: 30px; text-align: center; }
         .btn-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; height: 200px; position: relative; }
-
-        .cloud-btn { 
-            width: 180px; height: 90px; border: none; cursor: pointer; 
-            font-family: 'Dancing Script', cursive; font-size: 1.4rem; 
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.25s ease;
-            position: absolute;
-        }
-
+        .cloud-btn { width: 180px; height: 90px; border: none; cursor: pointer; font-family: 'Dancing Script', cursive; font-size: 1.4rem; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.25s ease; position: absolute; }
         #yesBtn { background: var(--blue); color: #1a237e; z-index: 10; font-weight: bold; }
         #noBtn { background: #424242; color: #ffffff; z-index: 100; transform: scale(2.5); }
-
         #hint { position: absolute; bottom: -40px; color: var(--deep-rose); font-size: 1.2rem; opacity: 0; transition: opacity 0.5s; width: 100%; text-align: center; }
-
-        #success-msg { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; flex-direction: column; align-items: center; justify-content: center; z-index: 4000;
-        }
-
+        #success-msg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; flex-direction: column; align-items: center; justify-content: center; z-index: 4000; }
         .pihu-frame { width: 280px; max-width: 75vw; border: 12px solid var(--cream); border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); margin-bottom: 25px; }
-
         .falling-heart { position: fixed; pointer-events: none; z-index: 2500; font-weight: bold; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
@@ -93,7 +51,9 @@
         <h1 style="color: var(--deep-rose); font-size: 3.5rem; margin: 0;">My Fineshyt</h1>
     </div>
 
-    <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         const music = document.getElementById('bgMusic');
@@ -103,11 +63,19 @@
         let darkness = 26; 
 
         function goToMain() {
+            // FORCE START AUDIO on user gesture
+            music.play().then(() => {
+                console.log("Music started successfully");
+            }).catch(error => {
+                console.log("Auto-play prevented, will try again on next click:", error);
+                // Fallback: try to play again if it fails
+                document.body.addEventListener('click', () => { music.play(); }, { once: true });
+            });
+
             document.getElementById('first-screen').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('first-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
-                music.play();
                 typeWriter(0);
             }, 800);
         }
@@ -139,17 +107,14 @@
         function createFallingHeart() {
             const heart = document.createElement('div');
             heart.className = 'falling-heart';
-            // Mix of solid and hollow hearts
             const isHollow = Math.random() > 0.5;
             heart.innerHTML = isHollow ? '♡' : '❤';
-            
-            // Match background colors (blue, yellow, rose)
             const colors = ['#2196F3', '#FBC02D', '#d63384'];
             heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-            
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.top = '-50px';
             heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+            // Added rotation to animation
             heart.style.animation = `fall ${Math.random() * 2 + 3}s linear forwards`;
             document.body.appendChild(heart);
         }
